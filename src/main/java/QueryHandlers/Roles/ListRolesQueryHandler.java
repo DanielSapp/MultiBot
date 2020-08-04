@@ -7,9 +7,9 @@ import net.dv8tion.jda.api.entities.Role;
 public class ListRolesQueryHandler extends QueryHandler {
 
     /**
-     * Returns whether @param message is a query to list roles.
+     * Returns whether @param message is a query to list Roles.
      * @param message The message in question.
-     * @return Whether the message is a query to list roles.
+     * @return Whether the message is a query to list Roles.
      */
     @Override
     public boolean canHandle(Message message) {
@@ -18,7 +18,7 @@ public class ListRolesQueryHandler extends QueryHandler {
     }
 
     /**
-     * Sends a message in the channel of the originating message with all of the roles in the originating guild.
+     * Sends a message in the channel of the originating message with all of the Roles in the originating guild.
      * @param message The message that initiated this query.
      */
     @Override
