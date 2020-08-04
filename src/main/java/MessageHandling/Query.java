@@ -5,5 +5,6 @@ package MessageHandling;
 public enum Query {
     WOLFRAM,
     BROADCAST,
-    ROLE
+    ROLE,
+    STOCKS
 }

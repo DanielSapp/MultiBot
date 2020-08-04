@@ -3,9 +3,11 @@ package Roles;
 import MessageHandling.QueryHandler;
 import net.dv8tion.jda.api.entities.*;
 
-public class RoleHandler extends QueryHandler {
+public class RoleQueryHandler extends QueryHandler {
 
     /**
+     * Entry point for role management commands. Analyzes message to determine the type of action needed, extracts
+     * the necessary components from message to do it, and calls a method to complete the action.
      * @param message The user message that contained this query.
      */
     @Override
@@ -22,6 +24,11 @@ public class RoleHandler extends QueryHandler {
         }
     }
 
+    /**
+     * Sends a message in @param channel with all of the roles in @param guild.
+     * @param guild The guild the message originated from.
+     * @param channel The channel the message originated from.
+     */
     private static void listRoles(Guild guild, MessageChannel channel) {
         StringBuilder sb = new StringBuilder();
         for (Role r : guild.getRoles()) {
@@ -33,6 +40,7 @@ public class RoleHandler extends QueryHandler {
         }
         channel.sendMessage("Roles:\n" + sb.toString()).queue();
     }
+
     private static void addRoleToUser(User user, String roleName) {
         //TODO
     }

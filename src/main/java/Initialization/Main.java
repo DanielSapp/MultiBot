@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import javax.security.auth.login.LoginException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main {
@@ -15,7 +16,7 @@ public class Main {
         //Initialize a new Initialization.ConfigurationGenerator and have it generate a Map that maps Query enums to QueryHandlers that
         //should receive Queries of that type.
         ConfigurationGenerator cg = new ConfigurationGenerator();
-        HashMap<Query, QueryHandler[]> handlerMap = cg.getQueryHandlerMap();
+        HashMap<Query, ArrayList<QueryHandler>> handlerMap = cg.getQueryHandlerMap();
 
         //Initialize a JDA object.  Exit if initialization is unsuccessful.
         JDA jda = null;
