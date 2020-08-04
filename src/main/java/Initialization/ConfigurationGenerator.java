@@ -14,10 +14,11 @@ public class ConfigurationGenerator {
     private final Scanner scanner = new Scanner(System.in);
 
     /**
-     * The entry point of ConfigurationGenerator.  Creates a Map that maps a Query types to QueryHandlers that should
-     * receive events of that category.  The Map is either read from file, or generated through user prompts if
-     * there is no pre-existing configuration file.
-     * @return A Map that maps a Query types to QueryHandlers that should receive events of that category.
+     * The entry point of ConfigurationGenerator.  Ask whether the user has a configuration file.  If yes,
+     * call createQueryHandlersFromFile() to get the QueryHandlers that should be active and returns them.
+     * Else, calls createQueryHandlersFromCommandLine to do the same, optionally calls saveQueryHandlersToFile()
+     * to save them for future initializations, then returns them.
+     * @return All QueryHandlers that will be active.
      */
     public ArrayList<QueryHandler> getQueryHandlers() {
         ArrayList<QueryHandler> toReturn;
@@ -35,8 +36,8 @@ public class ConfigurationGenerator {
     }
 
     /**
-     * Reads a bot configuration from file and returns a Map representing it.
-     * @return A Map that maps a Query types to QueryHandlers that should receive events of that category.
+     * Reads a bot configuration from file and returns an ArrayList<QueryHandler> representing it.
+     * @return A list of all QueryHandlers that were read from file.
      */
     private ArrayList<QueryHandler> createQueryHandlersFromFile() {
         while (true) {
@@ -57,8 +58,8 @@ public class ConfigurationGenerator {
     }
 
     /**
-     * Generates a bot configuration through user prompts and returns it as a Map.
-     * @return A Map that maps a Query types to QueryHandlers that should receive events of that category.
+     * Generates a bot configuration through user prompts and returns it as an ArrayList<QueryHandler>
+     * @return A list of all QueryHandlers that were created by the user.
      */
     private ArrayList<QueryHandler> createQueryHandlersFromCommandLine() {
         ArrayList<QueryHandler> toReturn = new ArrayList<>();
@@ -91,7 +92,7 @@ public class ConfigurationGenerator {
     /**
      * Prompts the user for a file name and saves the QueryHandlers in @param handlers there to be read
      * on future initializations.
-     * @param handlers A Map that maps a Query types to QueryHandlers that should receive events of that category.
+     * @param handlers An ArrayList<QueryHandlers> to be saved to disk.
      */
     private void saveQueryHandlersToFile (ArrayList<QueryHandler> handlers) {
         System.out.println("What should the configuration file be named?");
