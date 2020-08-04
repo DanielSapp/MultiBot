@@ -1,16 +1,13 @@
 package Initialization;
 
-import MessageHandling.Query;
 import MessageHandling.QueryHandler;
 import Roles.AddRoleQueryHandler;
 import Roles.ListRolesQueryHandler;
 import Roles.RemoveRoleQueryHandler;
 import Stocks.StockQueryHandler;
 import Wolfram.WolframQueryHandler;
-
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class ConfigurationGenerator {
@@ -22,30 +19,30 @@ public class ConfigurationGenerator {
      * there is no pre-existing configuration file.
      * @return A Map that maps a Query types to QueryHandlers that should receive events of that category.
      */
-    public HashMap<Query, ArrayList<QueryHandler>> getQueryHandlerMap() {
-        HashMap<Query, ArrayList<QueryHandler>> queryHandlerMap;
+    public ArrayList<QueryHandler> getQueryHandlers() {
+        ArrayList<QueryHandler> toReturn;
         System.out.println("Do you have a configuration file?  y/n");
         if (userAnsweredYes()) {
-            queryHandlerMap = createQueryHandlerMapFromFile();
+            toReturn = createQueryHandlersFromFile();
         } else {
-            queryHandlerMap = createQueryHandlerMapFromCommandLine();
+            toReturn = createQueryHandlersFromCommandLine();
             System.out.println("Would you like to save your configuration?");
             if (userAnsweredYes()) {
-                saveQueryHandlerToFile(queryHandlerMap);
+                saveQueryHandlersToFile(toReturn);
             }
         }
-        return queryHandlerMap;
+        return toReturn;
     }
 
     /**
      * Reads a bot configuration from file and returns a Map representing it.
      * @return A Map that maps a Query types to QueryHandlers that should receive events of that category.
      */
-    private HashMap<Query, ArrayList<QueryHandler>> createQueryHandlerMapFromFile() {
+    private ArrayList<QueryHandler> createQueryHandlersFromFile() {
         while (true) {
             System.out.println("Enter the path of the file");
             try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(scanner.nextLine()))) {
-                return (HashMap<Query, ArrayList<QueryHandler>>) objectInputStream.readObject();
+                return (ArrayList<QueryHandler>) objectInputStream.readObject();
             } catch (FileNotFoundException e) {
                 System.out.println("Error: invalid file path");
                 e.printStackTrace();
@@ -63,48 +60,44 @@ public class ConfigurationGenerator {
      * Generates a bot configuration through user prompts and returns it as a Map.
      * @return A Map that maps a Query types to QueryHandlers that should receive events of that category.
      */
-    private HashMap<Query, ArrayList<QueryHandler>> createQueryHandlerMapFromCommandLine() {
-        HashMap<Query, ArrayList<QueryHandler>> queryHandlerMap = new HashMap<>();
+    private ArrayList<QueryHandler> createQueryHandlersFromCommandLine() {
+        ArrayList<QueryHandler> toReturn = new ArrayList<>();
         System.out.println("Would you like to enable Wolfram Alpha queries?");
         if (userAnsweredYes()) {
             System.out.println("What is your application key?");
-            queryHandlerMap.putIfAbsent(Query.WOLFRAM, new ArrayList<>());
-            queryHandlerMap.get(Query.WOLFRAM).add(new WolframQueryHandler(scanner.nextLine()));
+            String applicationKey = scanner.nextLine();
+            toReturn.add(new WolframQueryHandler(applicationKey));
         }
         System.out.println("Would you like to enable stock statistics?");
         if (userAnsweredYes()) {
-            queryHandlerMap.putIfAbsent(Query.STOCKS, new ArrayList<>());
-            queryHandlerMap.get(Query.STOCKS).add(new StockQueryHandler());
+            toReturn.add(new StockQueryHandler());
         }
         System.out.println("Would you like to enable adding roles to users?");
         if (userAnsweredYes()) {
-            queryHandlerMap.putIfAbsent(Query.ROLE, new ArrayList<>());
-            queryHandlerMap.get(Query.ROLE).add(new AddRoleQueryHandler());
+            toReturn.add(new AddRoleQueryHandler());
         }
         System.out.println("Would you like to enable removing roles from users?");
         if (userAnsweredYes()) {
-            queryHandlerMap.putIfAbsent(Query.ROLE, new ArrayList<>());
-            queryHandlerMap.get(Query.ROLE).add(new RemoveRoleQueryHandler());
+            toReturn.add(new RemoveRoleQueryHandler());
         }
         System.out.println("Would you like to enable listing guild rules?");
         if (userAnsweredYes()) {
-            queryHandlerMap.putIfAbsent(Query.ROLE, new ArrayList<>());
-            queryHandlerMap.get(Query.ROLE).add(new ListRolesQueryHandler());
+            toReturn.add(new ListRolesQueryHandler());
         }
         //Add prompts for new query handlers here as necessary.
-        return queryHandlerMap;
+        return toReturn;
     }
 
     /**
-     * Prompts the user for a file name and saves @param queryHandlerMap there as a serialized object to be read
-     * on future bot initializations.
-     * @param queryHandlerMap A Map that maps a Query types to QueryHandlers that should receive events of that category.
+     * Prompts the user for a file name and saves the QueryHandlers in @param handlers there to be read
+     * on future initializations.
+     * @param handlers A Map that maps a Query types to QueryHandlers that should receive events of that category.
      */
-    private void saveQueryHandlerToFile (HashMap<Query, ArrayList<QueryHandler>> queryHandlerMap) {
+    private void saveQueryHandlersToFile (ArrayList<QueryHandler> handlers) {
         System.out.println("What should the configuration file be named?");
         String fileName = scanner.nextLine();
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            oos.writeObject(queryHandlerMap);
+            oos.writeObject(handlers);
         } catch (IOException e) {
             System.out.println("An error occurred while saving the configuration file.  Your settings have not been saved.");
             e.printStackTrace();

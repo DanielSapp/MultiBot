@@ -8,4 +8,9 @@ public class StockQueryHandler extends QueryHandler {
     public void handleQuery(Message message) {
         //TODO
     }
+
+    @Override
+    public boolean canHandle(Message message) {
+        return message.getContentStripped().toLowerCase().startsWith("!stock");
+    }
 }
