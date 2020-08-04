@@ -2,7 +2,9 @@ package Initialization;
 
 import MessageHandling.Query;
 import MessageHandling.QueryHandler;
-import Roles.RoleQueryHandler;
+import Roles.AddRoleQueryHandler;
+import Roles.ListRolesQueryHandler;
+import Roles.RemoveRoleQueryHandler;
 import Stocks.StockQueryHandler;
 import Wolfram.WolframQueryHandler;
 
@@ -74,10 +76,20 @@ public class ConfigurationGenerator {
             queryHandlerMap.putIfAbsent(Query.STOCKS, new ArrayList<>());
             queryHandlerMap.get(Query.STOCKS).add(new StockQueryHandler());
         }
-        System.out.println("Would you like to enable role management?");
+        System.out.println("Would you like to enable adding roles to users?");
         if (userAnsweredYes()) {
             queryHandlerMap.putIfAbsent(Query.ROLE, new ArrayList<>());
-            queryHandlerMap.get(Query.ROLE).add(new RoleQueryHandler());
+            queryHandlerMap.get(Query.ROLE).add(new AddRoleQueryHandler());
+        }
+        System.out.println("Would you like to enable removing roles from users?");
+        if (userAnsweredYes()) {
+            queryHandlerMap.putIfAbsent(Query.ROLE, new ArrayList<>());
+            queryHandlerMap.get(Query.ROLE).add(new RemoveRoleQueryHandler());
+        }
+        System.out.println("Would you like to enable listing guild rules?");
+        if (userAnsweredYes()) {
+            queryHandlerMap.putIfAbsent(Query.ROLE, new ArrayList<>());
+            queryHandlerMap.get(Query.ROLE).add(new ListRolesQueryHandler());
         }
         //Add prompts for new query handlers here as necessary.
         return queryHandlerMap;

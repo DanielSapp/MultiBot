@@ -21,6 +21,16 @@ public class WolframQueryHandler extends QueryHandler {
     }
 
     /**
+     * Returns true IFF @param message begins with !wolfram, indicating it is a wolfram query.
+     * @param message The message in question.
+     * @return Whether it is a Wolfram query.
+     */
+    @Override
+    public boolean canHandle(Message message) {
+        return message.getContentStripped().toLowerCase().startsWith("!wolfram");
+    }
+
+    /**
      * Takes a message representing a Message that included a query for Wolfram Alpha, parses the query,
      * calls getQueryAnswer() to get Wolfram's response, and sends the response in the channel the query was initiated in.
      * @param message The user message that contained this query.
