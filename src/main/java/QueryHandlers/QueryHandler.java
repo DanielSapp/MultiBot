@@ -1,4 +1,4 @@
-package MessageHandling;
+package QueryHandlers;
 import net.dv8tion.jda.api.entities.Message;
 import java.io.Serializable;
 

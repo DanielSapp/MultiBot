@@ -1,7 +1,7 @@
 package Initialization;
 
 import MessageHandling.MessageHandler;
-import MessageHandling.QueryHandler;
+import QueryHandlers.QueryHandler;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;

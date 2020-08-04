@@ -1,6 +1,6 @@
-package Roles;
+package QueryHandlers.Roles;
 
-import MessageHandling.QueryHandler;
+import QueryHandlers.QueryHandler;
 import net.dv8tion.jda.api.entities.Message;
 
 public class RemoveRoleQueryHandler extends QueryHandler {

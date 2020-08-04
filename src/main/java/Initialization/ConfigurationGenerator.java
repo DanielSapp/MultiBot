@@ -1,11 +1,11 @@
 package Initialization;
 
-import MessageHandling.QueryHandler;
-import Roles.AddRoleQueryHandler;
-import Roles.ListRolesQueryHandler;
-import Roles.RemoveRoleQueryHandler;
-import Stocks.StockQueryHandler;
-import Wolfram.WolframQueryHandler;
+import QueryHandlers.QueryHandler;
+import QueryHandlers.Roles.AddRoleQueryHandler;
+import QueryHandlers.Roles.ListRolesQueryHandler;
+import QueryHandlers.Roles.RemoveRoleQueryHandler;
+import QueryHandlers.Stocks.StockQueryHandler;
+import QueryHandlers.Wolfram.WolframQueryHandler;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -63,7 +63,7 @@ public class ConfigurationGenerator {
      */
     private ArrayList<QueryHandler> createQueryHandlersFromCommandLine() {
         ArrayList<QueryHandler> toReturn = new ArrayList<>();
-        System.out.println("Would you like to enable Wolfram Alpha queries?");
+        System.out.println("Would you like to enable QueryHandlers.Wolfram Alpha queries?");
         if (userAnsweredYes()) {
             System.out.println("What is your application key?");
             String applicationKey = scanner.nextLine();

@@ -1,6 +1,6 @@
-package Roles;
+package QueryHandlers.Roles;
 
-import MessageHandling.QueryHandler;
+import QueryHandlers.QueryHandler;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
 
@@ -31,7 +31,7 @@ public class ListRolesQueryHandler extends QueryHandler {
             sb.append(r.getName());
             sb.append("\n");
         }
-        message.getChannel().sendMessage("Roles:\n" + sb.toString()).queue();
+        message.getChannel().sendMessage("QueryHandlers.Roles:\n" + sb.toString()).queue();
     }
 
 
