@@ -45,6 +45,7 @@ public class WolframQueryHandler extends QueryHandler {
         } catch (IOException e) {
             System.out.println("An error occurred while executing a QueryHandlers.Wolfram Alpha query");
             e.printStackTrace();
+            message.getChannel().sendMessage("An error occurred while executing that query.").queue();
             return;
         }
         message.getChannel().sendMessage(responseText).queue();

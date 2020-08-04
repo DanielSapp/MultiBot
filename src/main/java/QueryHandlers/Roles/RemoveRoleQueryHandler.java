@@ -36,6 +36,7 @@ public class RemoveRoleQueryHandler extends QueryHandler {
             if (acceptablePermissions(sender.getPermissions(), roles.get(0).getPermissions())) {
                 message.getGuild().addRoleToMember(sender, roles.get(0));
                 channel.sendMessage("Success! " + roleName + " has been added to " + sender.getNickname()).queue();
+                System.out.println("Role " + roleName + " has been added to user " + sender.getNickname() + " in " + message.getGuild());
             }
         //If no matching roles were found or 2+ were found, print appropriate error messages.
         } else if (roles.size() == 0) {
