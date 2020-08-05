@@ -35,6 +35,9 @@ public class RemoveRoleQueryHandler extends QueryHandler {
                 mc.sendMessage("Error: " + member.getNickname() + " does not have the Role " + matchingRoles.get(0).getName()).queue();
             }
         } else if (matchingRoles.size() == 0) {
+            System.out.println("Error: " + member.getNickname() + " in " + message.getGuild() + " tried to remove Role " + roleName + " but no Roles matched it.");
+            mc.sendMessage("Error: no roles found called " + roleName).queue();
+        } else {
             System.out.println("Error: " + member.getNickname() + " in " + message.getGuild() + " tried to remove Role " + roleName + " but more than one Role matched it");
             StringBuilder messageBuilder = new StringBuilder();
             messageBuilder.append("Error: all of the following Roles match " + roleName + "\n");
@@ -42,8 +45,6 @@ public class RemoveRoleQueryHandler extends QueryHandler {
                 messageBuilder.append(r.getName() + "\n");
             }
             mc.sendMessage(messageBuilder).queue();
-        } else {
-            System.out.println("Error: " + member.getNickname() + " in " + message.getGuild() + " tried to remove Role " + roleName + " but no Roles matched it.");
         }
     }
 }
