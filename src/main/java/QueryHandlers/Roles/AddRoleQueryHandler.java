@@ -40,7 +40,7 @@ public class AddRoleQueryHandler extends QueryHandler {
             if (acceptablePermissions(sender.getPermissions(), matchingRoles.get(0).getPermissions())) {
                 message.getGuild().addRoleToMember(sender, matchingRoles.get(0)).queue();
                 channel.sendMessage("Success! " + roleName + " has been added to " + sender.getEffectiveName()).queue();
-                System.out.println("Role " + roleName + " has been added to user " + sender.getEffectiveName() + " in " + message.getGuild());
+                System.out.println("Role " + roleName + " has been added to user " + sender.getEffectiveName() + " in " + message.getGuild().getName());
             }
         //If no matching roles were found or 2+ were found, print appropriate error messages.
         } else if (matchingRoles.size() == 0) {

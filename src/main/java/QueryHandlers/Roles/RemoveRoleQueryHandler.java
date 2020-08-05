@@ -33,7 +33,7 @@ public class RemoveRoleQueryHandler extends QueryHandler {
         if (matchingRoles.size() == 1) {
             if (member.getRoles().contains(matchingRoles.get(0))) {
                 message.getGuild().removeRoleFromMember(member, matchingRoles.get(0)).queue();
-                System.out.println("Role " + roleName + " has been removed from " + member.getEffectiveName() + " in " + message.getGuild() + ".");
+                System.out.println("Role " + roleName + " has been removed from " + member.getEffectiveName() + " in " + message.getGuild().getName() + ".");
                 channel.sendMessage(matchingRoles.get(0).getName() + " has been removed from " + member.getEffectiveName() + ".").queue();
             } else {
                 System.out.println("Error: " + member.getEffectiveName() + " in " + message.getGuild().getName() + " tried to remove Role " + roleName + " that they don't have.");
