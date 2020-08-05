@@ -27,7 +27,7 @@ public class RemoveRoleQueryHandler extends QueryHandler {
         List<Role> matchingRoles = message.getGuild().getRolesByName(roleName, true);
         if (matchingRoles.size() == 1) {
             if (member.getRoles().contains(matchingRoles.get(0))) {
-                message.getGuild().removeRoleFromMember(member, matchingRoles.get(0));
+                message.getGuild().removeRoleFromMember(member, matchingRoles.get(0)).queue();
                 System.out.println("Role " + roleName + " has been removed from " + member.getEffectiveName() + " in " + message.getGuild() + ".");
                 mc.sendMessage(matchingRoles.get(0).getName() + " has been removed from " + member.getEffectiveName() + ".").queue();
             } else {
