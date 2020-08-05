@@ -38,7 +38,7 @@ public class WolframQueryHandler extends QueryHandler {
     @Override
     public void handleQuery (Message message)  {
         String messageText = message.getContentStripped();
-        String query = messageText.substring(messageText.indexOf("!wolfram")+8).trim();
+        String query = messageText.substring(messageText.indexOf(" ")+1).trim();
         String responseText;
         try {
             responseText = getQueryAnswer(query);
