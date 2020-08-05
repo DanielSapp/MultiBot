@@ -37,7 +37,10 @@ public class AddRoleQueryHandler extends QueryHandler {
         //If there is one role that matches it, check if it would give member new permissions.  Print an error
         //if it would, else give them the role and print a success message.
         if (matchingRoles.size() == 1) {
-            if (acceptablePermissions(sender.getPermissions(), matchingRoles.get(0).getPermissions())) {
+            if (sender.getRoles().contains(matchingRoles.get(0))){
+                System.out.println("Error: " + sender.getEffectiveName() + "in" + message.getGuild().getName() + " tried to add role " + matchingRoles.get(0) + " but they already have it.");
+                channel.sendMessage("Error: you already have that role!").queue();
+            } else if (acceptablePermissions(sender.getPermissions(), matchingRoles.get(0).getPermissions())) {
                 message.getGuild().addRoleToMember(sender, matchingRoles.get(0)).queue();
                 channel.sendMessage("Success! " + roleName + " has been added to " + sender.getEffectiveName()).queue();
                 System.out.println("Role " + roleName + " has been added to user " + sender.getEffectiveName() + " in " + message.getGuild().getName());
