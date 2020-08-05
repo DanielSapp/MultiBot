@@ -25,7 +25,7 @@ public class ListRolesQueryHandler extends QueryHandler {
     public void handleQuery(Message message) {
         StringBuilder sb = new StringBuilder();
         for (Role r : message.getGuild().getRoles()) {
-            if (r.getName().equals("@everyone")) {
+            if (r.getName().equals("@everyone") || r.getName().equals("Multibot")) {
                 continue;
             }
             sb.append(r.getName());
@@ -33,6 +33,4 @@ public class ListRolesQueryHandler extends QueryHandler {
         }
         message.getChannel().sendMessage("QueryHandlers.Roles:\n" + sb.toString()).queue();
     }
-
-
 }
