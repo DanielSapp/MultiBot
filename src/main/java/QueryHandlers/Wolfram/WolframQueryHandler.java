@@ -14,14 +14,14 @@ public class WolframQueryHandler extends QueryHandler {
     private String appID;
 
     /**
-     * @param appID The application ID that must be passed to the QueryHandlers.Wolfram API as authentication.
+     * @param appID The application ID that must be passed to the Wolfram API as authentication.
      */
     public WolframQueryHandler(String appID) {
         this.appID = appID;
     }
 
     /**
-     * Returns true IFF @param message begins with !wolfram, indicating it is a wolfram query.
+     * Returns true IFF @param message begins with !wolfram, indicating it is a Wolfram query.
      * @param message The message in question.
      * @return Whether it is a QueryHandlers.Wolfram query.
      */
@@ -31,8 +31,8 @@ public class WolframQueryHandler extends QueryHandler {
     }
 
     /**
-     * Takes a message representing a Message that included a query for QueryHandlers.Wolfram Alpha, parses the query,
-     * calls getQueryAnswer() to get QueryHandlers.Wolfram's response, and sends the response in the channel the query was initiated in.
+     * Takes a message representing a Message that included a query for Wolfram Alpha, parses the query,
+     * calls getQueryAnswer() to get Wolfram's response, and sends the response in the channel the query was initiated in.
      * @param message The user message that contained this query.
      */
     @Override
@@ -52,15 +52,15 @@ public class WolframQueryHandler extends QueryHandler {
     }
 
     /**
-     * POSTs @param query to the QueryHandlers.Wolfram Alpha simple response API and returns its response.
-     * @param query The text query to be sent to QueryHandlers.Wolfram Alpha.
-     * @return The text answer returned by QueryHandlers.Wolfram Alpha.
-     * @throws IOException if an error occurs while interacting with QueryHandlers.Wolfram Alpha.
+     * POSTs @param query to the Wolfram Alpha simple response API and returns its response.
+     * @param query The text query to be sent to Wolfram Alpha.
+     * @return The text answer returned by Wolfram Alpha.
+     * @throws IOException if an error occurs while interacting with Wolfram Alpha.
      */
     private String getQueryAnswer(String query) throws IOException {
         URL url = new URL("http://api.wolframalpha.com/v1/result?appid=" + appID + "&i=" + URLEncoder.encode(query, StandardCharsets.UTF_8));
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
+        connection.setRequestMethod("GET");
         BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder responseText = new StringBuilder();
         String nextLine;
