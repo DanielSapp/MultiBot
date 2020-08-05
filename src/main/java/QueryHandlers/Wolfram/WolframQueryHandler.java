@@ -11,7 +11,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 public class WolframQueryHandler extends QueryHandler {
-    private String appID;
+    private final String appID;
 
     /**
      * @param appID The application ID that must be passed to the Wolfram API as authentication.
@@ -58,7 +58,7 @@ public class WolframQueryHandler extends QueryHandler {
      * @throws IOException if an error occurs while interacting with Wolfram Alpha.
      */
     private String getQueryAnswer(String query) throws IOException {
-        URL url = new URL("http://api.wolframalpha.com/v1/result?appid=" + appID + "&i=" + URLEncoder.encode(query, StandardCharsets.UTF_8));
+        URL url = new URL("http://api.wolframalpha.com/v1/result?appid=" + appID + "&i=" + URLEncoder.encode(query, "UTF-8"));
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));

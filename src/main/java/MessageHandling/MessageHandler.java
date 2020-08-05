@@ -27,7 +27,7 @@ public class MessageHandler extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
         Message eventMessage = event.getMessage();
-        if (eventMessage.getContentStripped().startsWith("!")) {
+        if (eventMessage.getContentStripped().startsWith("!") && !event.isWebhookMessage()) {
             for (QueryHandler qh : handlers) {
                 if (qh.canHandle(eventMessage)) {
                     qh.handleQuery(eventMessage);

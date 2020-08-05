@@ -18,6 +18,11 @@ public class RemoveRoleQueryHandler extends QueryHandler {
         return (messageText.startsWith("!removerole") || messageText.startsWith("!removerank"));
     }
 
+    /**
+     * Receives a query to remove a Role from a Member.  Removes it if possible, otherwise prints error info to
+     * console and in the Discord channel the message originated from.
+     * @param message The role removal query.
+     */
     @Override
     public void handleQuery(Message message) {
         Member member = message.getMember();
@@ -46,9 +51,9 @@ public class RemoveRoleQueryHandler extends QueryHandler {
         } else {
             System.out.println("Error: " + member.getEffectiveName() + " in " + message.getGuild().getName() + " tried to remove Role " + roleName + " but more than one Role matched it");
             StringBuilder messageBuilder = new StringBuilder();
-            messageBuilder.append("Error: all of the following Roles match " + roleName + "\n");
+            messageBuilder.append("Error: all of the following Roles match ").append(roleName).append("\n");
             for (Role r : matchingRoles) {
-                messageBuilder.append(r.getName() + "\n");
+                messageBuilder.append(r.getName()).append("\n");
             }
             channel.sendMessage(messageBuilder).queue();
         }

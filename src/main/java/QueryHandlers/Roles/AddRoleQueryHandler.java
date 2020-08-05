@@ -23,6 +23,11 @@ public class AddRoleQueryHandler extends QueryHandler {
         return messageText.startsWith("!addrole") || messageText.startsWith("!addrank");
     }
 
+    /**
+     * Receives a query to add a Role to a user.  Adds it if the role is found and it does not give the Member new
+     * permissions, otherwise prints error info to console and in the Discord channel the message originated from.
+     * @param message The role addition query.
+     */
     @Override
     public void handleQuery(Message message) {
         //Extracting information from message
@@ -54,7 +59,7 @@ public class AddRoleQueryHandler extends QueryHandler {
             StringBuilder messageBuilder = new StringBuilder();
             messageBuilder.append("Error: all of the following Roles match " + roleName + "\n");
             for (Role r : matchingRoles) {
-                messageBuilder.append(r.getName() + "\n");
+                messageBuilder.append(r.getName()).append("\n");
             }
             channel.sendMessage(messageBuilder).queue();
         }

@@ -71,7 +71,8 @@ public class ConfigurationGenerator {
         }
         System.out.println("Would you like to enable stock statistics?");
         if (userAnsweredYes()) {
-            toReturn.add(new StockQueryHandler());
+            System.out.println("Enter your public IEX key");
+            toReturn.add(new StockQueryHandler(scanner.nextLine()));
         }
         System.out.println("Would you like to enable adding roles to users?");
         if (userAnsweredYes()) {
