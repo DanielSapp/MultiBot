@@ -63,7 +63,7 @@ public class ConfigurationGenerator {
      */
     private ArrayList<QueryHandler> createQueryHandlersFromCommandLine() {
         ArrayList<QueryHandler> toReturn = new ArrayList<>();
-        System.out.println("Would you like to enable QueryHandlers.Wolfram Alpha queries?");
+        System.out.println("Would you like to enable Wolfram Alpha queries?");
         if (userAnsweredYes()) {
             System.out.println("What is your application key?");
             String applicationKey = scanner.nextLine();
