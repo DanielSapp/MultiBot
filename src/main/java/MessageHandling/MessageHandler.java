@@ -20,8 +20,8 @@ public class MessageHandler extends ListenerAdapter {
     }
 
     /**
-     * Receives a GuildMessageReceivedEvent every time a message is sent in a guild this bot is in.
-     * If it is a command, it calls canHandle() on every QueryHandler that is running and calls handleQuery()
+     * Receive a GuildMessageReceivedEvent every time a message is sent in a guild this bot is in.
+     * If it is a command, call canHandle() on every QueryHandler that is running and call handleQuery()
      * on every one that returns true, indicating that the command is intended for that QueryHandler.
      */
     @Override

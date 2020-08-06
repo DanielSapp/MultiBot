@@ -1,13 +1,13 @@
 package Initialization;
 
 import QueryHandlers.QueryHandler;
-import QueryHandlers.Roles.AddRoleQueryHandler;
-import QueryHandlers.Roles.ListRolesQueryHandler;
-import QueryHandlers.Roles.RemoveRoleQueryHandler;
+import QueryHandlers.Roles.*;
 import QueryHandlers.Stocks.StockQueryHandler;
 import QueryHandlers.Wolfram.WolframQueryHandler;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Scanner;
 
 public class ConfigurationGenerator {
@@ -36,7 +36,7 @@ public class ConfigurationGenerator {
     }
 
     /**
-     * Reads a bot configuration from file and returns an ArrayList<QueryHandler> representing it.
+     * Read a bot configuration from file and return an ArrayList<QueryHandler> representing it.
      * @return A list of all QueryHandlers that were read from file.
      */
     private ArrayList<QueryHandler> createQueryHandlersFromFile() {
@@ -58,7 +58,7 @@ public class ConfigurationGenerator {
     }
 
     /**
-     * Generates a bot configuration through user prompts and returns it as an ArrayList<QueryHandler>
+     * Generate a bot configuration through user prompts and return it as an ArrayList<QueryHandler>
      * @return A list of all QueryHandlers that were created by the user.
      */
     private ArrayList<QueryHandler> createQueryHandlersFromCommandLine() {
@@ -82,6 +82,14 @@ public class ConfigurationGenerator {
         if (userAnsweredYes()) {
             toReturn.add(new RemoveRoleQueryHandler());
         }
+        System.out.println("Would you like to enable creating new roles?");
+        if (userAnsweredYes()) {
+            toReturn.add(new CreateRoleQueryHandler());
+        }
+        System.out.println("Would you like to enable deleting existing roles?");
+        if (userAnsweredYes()) {
+            toReturn.add(new DeleteRoleQueryHandler());
+        }
         System.out.println("Would you like to enable listing guild rules?");
         if (userAnsweredYes()) {
             toReturn.add(new ListRolesQueryHandler());
@@ -91,7 +99,7 @@ public class ConfigurationGenerator {
     }
 
     /**
-     * Prompts the user for a file name and saves the QueryHandlers in @param handlers there to be read
+     * Prompt the user for a file name and save the QueryHandlers in @param handlers there to be read
      * on future initializations.
      * @param handlers An ArrayList<QueryHandlers> to be saved to disk.
      */
@@ -107,9 +115,9 @@ public class ConfigurationGenerator {
     }
 
     /**
-     * Retrieves user input.  Returns true if they input Y/y, false if they input N/n, and loops if any other input
+     * Retrieve user input.  Return true if they input Y/y, false if they input N/n, and loop if any other input
      * is received.
-     * @return true if the user indicated a "yes" as their first valid response, false otherwise.
+     * @return True if the user indicated a "yes" as their first valid response, false otherwise.
      */
     private boolean userAnsweredYes() {
         while (true) {
@@ -122,5 +130,23 @@ public class ConfigurationGenerator {
                 System.out.println("Invalid input.  Enter y/n");
             }
         }
+    }
+
+    /**
+     * Return all of the GatewayIntents needed for @param handlers to function.
+     * @param handlers The QueryHandlers to generate the GatewayIntents of.
+     * @return All GatewayIntents needed for the QueryHandlers to function.
+     */
+    public static Collection<GatewayIntent> getGatewayIntents(Collection<QueryHandler> handlers) {
+        ArrayList<GatewayIntent> toReturn = new ArrayList<>();
+        toReturn.add(GatewayIntent.GUILD_MESSAGES);
+        for (QueryHandler h : handlers) {
+            for (GatewayIntent gi : h.getGatewayIntents()) {
+                if (!toReturn.contains(gi)) {
+                    toReturn.add(gi);
+                }
+            }
+        }
+        return toReturn;
     }
 }

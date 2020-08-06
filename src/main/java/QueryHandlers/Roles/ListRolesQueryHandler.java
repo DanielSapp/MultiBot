@@ -1,13 +1,13 @@
 package QueryHandlers.Roles;
 
-import QueryHandlers.QueryHandler;
+import QueryHandlers.NoGatewayIntentQueryHandler;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
 
-public class ListRolesQueryHandler extends QueryHandler {
+public class ListRolesQueryHandler extends NoGatewayIntentQueryHandler {
 
     /**
-     * Returns whether @param message is a query to list Roles.
+     * Return whether @param message is a query to list Roles.
      * @param message The message in question.
      * @return Whether the message is a query to list Roles.
      */
@@ -18,7 +18,7 @@ public class ListRolesQueryHandler extends QueryHandler {
     }
 
     /**
-     * Sends a message in the channel of the originating message with all of the Roles in the originating guild.
+     * Send a message in the channel of the originating message with all of the Roles in the originating guild.
      * @param message The message that initiated this query.
      */
     @Override

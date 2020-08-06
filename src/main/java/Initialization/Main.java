@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import javax.security.auth.login.LoginException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Main {
 
@@ -16,10 +17,13 @@ public class Main {
         ConfigurationGenerator cg = new ConfigurationGenerator();
         ArrayList<QueryHandler> queryHandlers = cg.getQueryHandlers();
 
+        //Obtain the necessary GatewayIntents for all of the QueryHandlers in to function.
+        Collection<GatewayIntent> necessaryIntents = ConfigurationGenerator.getGatewayIntents(queryHandlers);
+
         //Initialize a JDA object.  Exit if initialization is unsuccessful.
         JDA jda = null;
         try {
-            jda = JDABuilder.create(args[0], GatewayIntent.GUILD_MESSAGES).build();
+            jda = JDABuilder.create(args[0], necessaryIntents).build();
         } catch (LoginException e) {
             System.out.println("An error occurred while trying to login.");
             System.exit(1);

@@ -1,14 +1,13 @@
 package QueryHandlers.Roles;
 
-import QueryHandlers.QueryHandler;
+import QueryHandlers.NoGatewayIntentQueryHandler;
 import net.dv8tion.jda.api.entities.*;
-
 import java.util.List;
 
-public class RemoveRoleQueryHandler extends QueryHandler {
+public class RemoveRoleQueryHandler extends NoGatewayIntentQueryHandler {
 
     /**
-     * Returns whether @param message is a query to remove a Role from user.
+     * Return whether @param message is a query to remove a Role from user.
      * @param message The message in question.
      * @return Whether the message is a query to remove a Role from user.
      */
@@ -19,13 +18,13 @@ public class RemoveRoleQueryHandler extends QueryHandler {
     }
 
     /**
-     * Receives a query to remove a Role from a Member.  Removes it if possible, otherwise prints error info to
+     * Receive a query to remove a Role from a Member.  Remove it if possible, otherwise prints error info to
      * console and in the Discord channel the message originated from.
-     * @param message The role removal query.
+     * @param message The query to remove a Role from the user.
      */
     @Override
     public void handleQuery(Message message) {
-        Member member = message.getMember();
+        Member sender = message.getMember();
         String messageText = message.getContentStripped();
         MessageChannel channel = message.getChannel();
         String roleName = messageText.substring(messageText.indexOf(" ")+1);
@@ -36,26 +35,18 @@ public class RemoveRoleQueryHandler extends QueryHandler {
         //If one role matches the query, see if the Member has it.  Remove it and print success messages if they do,
         //otherwise print errors.
         if (matchingRoles.size() == 1) {
-            if (member.getRoles().contains(matchingRoles.get(0))) {
-                message.getGuild().removeRoleFromMember(member, matchingRoles.get(0)).queue();
-                System.out.println("Role " + roleName + " has been removed from " + member.getEffectiveName() + " in " + message.getGuild().getName() + ".");
-                channel.sendMessage(matchingRoles.get(0).getName() + " has been removed from " + member.getEffectiveName() + ".").queue();
+            if (sender.getRoles().contains(matchingRoles.get(0))) {
+                message.getGuild().removeRoleFromMember(sender, matchingRoles.get(0)).queue();
+                System.out.println("Role " + roleName + " has been removed from " + sender.getEffectiveName() + " in " + message.getGuild().getName());
+                channel.sendMessage(matchingRoles.get(0).getName() + " has been removed from " + sender.getEffectiveName()).queue();
             } else {
-                System.out.println("Error: " + member.getEffectiveName() + " in " + message.getGuild().getName() + " tried to remove Role " + roleName + " that they don't have.");
-                channel.sendMessage("Error: " + member.getEffectiveName() + " does not have the Role " + matchingRoles.get(0).getName()).queue();
+                RoleErrorPrinter.sendUserDoesntHaveRoleError(sender, channel, matchingRoles.get(0).getName());
             }
         //Else if no matching roles were found or more than one matching Role was found, print appropriate error messages
         } else if (matchingRoles.size() == 0) {
-            System.out.println("Error: " + member.getEffectiveName() + " in " + message.getGuild().getName() + " tried to remove Role " + roleName + " but no Roles matched it.");
-            channel.sendMessage("Error: no roles found called " + roleName).queue();
+            RoleErrorPrinter.sendNoRolesFoundError(sender, channel, roleName, "remove");
         } else {
-            System.out.println("Error: " + member.getEffectiveName() + " in " + message.getGuild().getName() + " tried to remove Role " + roleName + " but more than one Role matched it");
-            StringBuilder messageBuilder = new StringBuilder();
-            messageBuilder.append("Error: all of the following Roles match ").append(roleName).append("\n");
-            for (Role r : matchingRoles) {
-                messageBuilder.append(r.getName()).append("\n");
-            }
-            channel.sendMessage(messageBuilder).queue();
+            RoleErrorPrinter.sendMultipleRolesFoundError(sender, channel, roleName, matchingRoles, "remove");
         }
     }
 }
