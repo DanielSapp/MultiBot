@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.entities.Role;
 import java.util.List;
 
 public class DeleteRoleQueryHandler extends NoGatewayIntentQueryHandler {
+
     /**
      * Return whether @param message is a query to delete a Role.
      * @param message The message in question.

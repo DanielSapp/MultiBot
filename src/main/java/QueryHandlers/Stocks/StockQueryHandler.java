@@ -14,7 +14,6 @@ import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-
 public class StockQueryHandler extends NoGatewayIntentQueryHandler {
     private transient IEXCloudClient client;
     private String token;
@@ -23,13 +22,13 @@ public class StockQueryHandler extends NoGatewayIntentQueryHandler {
         initializeClient();
     }
 
-    @Override
     /**
      * Receive a query for stock information.  Parse a ticker from it, call client.executeRequest() to get a Quote
      * object, call generateResponse() to format it into a human readable String, and print that to the Discord channel
      * the query originated from.
      * @param message The query for stock information.
      */
+    @Override
     public void handleQuery(Message message) {
         String ticker = message.getContentStripped().substring(message.getContentStripped().indexOf(" ")+1).toUpperCase();
         Quote quote;
