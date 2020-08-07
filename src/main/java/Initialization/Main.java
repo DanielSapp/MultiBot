@@ -22,7 +22,7 @@ public class Main {
             System.exit(1);
         }
 
-        //Register a new instance of this class as an EventListener and pass in the ArrayList of QueryHandlers.
+        //Register a new instance of this class as an EventListener and pass in all QueryHandlers that will be active.
         jda.addEventListener(new MessageHandler(template.getQueryHandlers()));
     }
 }
