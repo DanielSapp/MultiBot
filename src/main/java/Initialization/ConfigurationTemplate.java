@@ -21,6 +21,7 @@ public class ConfigurationTemplate implements Serializable {
 
     private void initializeNecessaryGatewayIntents() {
         necessaryGatewayIntents = new ArrayList<>();
+        necessaryGatewayIntents.add(GatewayIntent.GUILD_MESSAGES);
         for (MessageHandler handler : messageHandlers) {
             for (GatewayIntent intent : handler.getGatewayIntents()) {
                 if (!necessaryGatewayIntents.contains(intent)) {
