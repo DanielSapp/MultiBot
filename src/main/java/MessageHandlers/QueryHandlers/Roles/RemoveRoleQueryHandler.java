@@ -1,10 +1,10 @@
-package QueryHandlers.Roles;
+package MessageHandlers.QueryHandlers.Roles;
 
-import QueryHandlers.NoGatewayIntentQueryHandler;
+import MessageHandlers.QueryHandlers.QueryHandler;
 import net.dv8tion.jda.api.entities.*;
 import java.util.List;
 
-public class RemoveRoleQueryHandler extends NoGatewayIntentQueryHandler {
+public class RemoveRoleQueryHandler extends QueryHandler {
 
     /**
      * Return whether @param message is a query to remove a Role from user.
@@ -19,11 +19,12 @@ public class RemoveRoleQueryHandler extends NoGatewayIntentQueryHandler {
 
     /**
      * Receive a query to remove a Role from a Member.  Remove it if possible, otherwise prints error info to
-     * console and in the Discord channel the message originated from.
+     * console and in the Discord channel the message originated from.  Called from superclass method handleMessage()
+     * after it determines that @param message is a valid query.
      * @param message The query to remove a Role from the user.
      */
     @Override
-    public void handleQuery(Message message) {
+    public void executeQuery(Message message) {
         Member sender = message.getMember();
         String messageText = message.getContentStripped();
         MessageChannel channel = message.getChannel();

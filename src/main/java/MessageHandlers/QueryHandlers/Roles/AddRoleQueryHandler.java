@@ -1,6 +1,6 @@
-package QueryHandlers.Roles;
+package MessageHandlers.QueryHandlers.Roles;
 
-import QueryHandlers.NoGatewayIntentQueryHandler;
+import MessageHandlers.QueryHandlers.QueryHandler;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.entities.Role;
 import java.util.EnumSet;
 import java.util.List;
 
-public class AddRoleQueryHandler extends NoGatewayIntentQueryHandler {
+public class AddRoleQueryHandler extends QueryHandler {
 
     /**
      * Return whether @param message is a query to add a Role to user.
@@ -25,10 +25,11 @@ public class AddRoleQueryHandler extends NoGatewayIntentQueryHandler {
     /**
      * Receive a query to add a Role to a user.  Add it if the role is found and it does not give the Member new
      * permissions, else print error info to console and in the Discord channel the message originated from.
+     * Called from superclass method handleMessage() after it determines that @param message is a valid query.
      * @param message The query to add a Role to the user.
      */
     @Override
-    public void handleQuery(Message message) {
+    public void executeQuery(Message message) {
         //Extracting information from message
         String messageText = message.getContentStripped();
         String roleName = messageText.substring(messageText.indexOf(" ")+1);

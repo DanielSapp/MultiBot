@@ -1,6 +1,6 @@
-package QueryHandlers.Stocks;
+package MessageHandlers.QueryHandlers.Stocks;
 
-import QueryHandlers.NoGatewayIntentQueryHandler;
+import MessageHandlers.QueryHandlers.QueryHandler;
 import net.dv8tion.jda.api.entities.Message;
 import pl.zankowski.iextrading4j.api.exception.IEXTradingException;
 import pl.zankowski.iextrading4j.api.stocks.Quote;
@@ -14,7 +14,7 @@ import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class StockQueryHandler extends NoGatewayIntentQueryHandler {
+public class StockQueryHandler extends QueryHandler {
     private transient IEXCloudClient client;
     private String token;
     public StockQueryHandler(String token) {
@@ -23,13 +23,23 @@ public class StockQueryHandler extends NoGatewayIntentQueryHandler {
     }
 
     /**
+     * Returns whether @param message is a query for stock information.
+     * @param message The message in question.
+     * @return Whether the message is a query for stock information.
+     */
+    @Override
+    public boolean canHandle(Message message) {
+        return message.getContentStripped().toLowerCase().startsWith("!stock");
+    }
+
+    /**
      * Receive a query for stock information.  Parse a ticker from it, call client.executeRequest() to get a Quote
      * object, call generateResponse() to format it into a human readable String, and print that to the Discord channel
-     * the query originated from.
+     * the query originated from.  Called from superclass method handleMessage() after it determines that @param message is a valid query.
      * @param message The query for stock information.
      */
     @Override
-    public void handleQuery(Message message) {
+    public void executeQuery(Message message) {
         String ticker = message.getContentStripped().substring(message.getContentStripped().indexOf(" ")+1).toUpperCase();
         Quote quote;
         try {
@@ -42,16 +52,6 @@ public class StockQueryHandler extends NoGatewayIntentQueryHandler {
         }
         String response = generateResponse(quote);
         message.getChannel().sendMessage(response).queue();
-    }
-
-    /**
-     * Returns whether @param message is a query for stock information.
-     * @param message The message in question.
-     * @return Whether the message is a query for stock information.
-     */
-    @Override
-    public boolean canHandle(Message message) {
-        return message.getContentStripped().toLowerCase().startsWith("!stock");
     }
 
     /**

@@ -1,11 +1,11 @@
-package QueryHandlers.Roles;
+package MessageHandlers.QueryHandlers.Roles;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 import java.util.List;
 
-//A class that contains static methods that send error messages that are common between 2+ RoleQueryHandlers.
+//A class that contains static methods that send error messages for RoleQueryHandlers.
 public class RoleErrorPrinter {
 
     public static void sendMultipleRolesFoundError(Member sender, MessageChannel channel, String roleName, List<Role> roles, String actionType) {

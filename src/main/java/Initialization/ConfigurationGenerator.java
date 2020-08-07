@@ -1,10 +1,9 @@
 package Initialization;
 
-import QueryHandlers.QueryHandler;
-import QueryHandlers.Roles.*;
-import QueryHandlers.Stocks.StockQueryHandler;
-import QueryHandlers.Wolfram.WolframQueryHandler;
-
+import MessageHandlers.MessageHandler;
+import MessageHandlers.QueryHandlers.Roles.*;
+import MessageHandlers.QueryHandlers.Stocks.StockQueryHandler;
+import MessageHandlers.QueryHandlers.Wolfram.WolframQueryHandler;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -14,10 +13,10 @@ public class ConfigurationGenerator {
 
     /**
      * The entry point of ConfigurationGenerator.  Ask whether the user has a configuration file.  If yes,
-     * call createQueryHandlersFromFile() to get the QueryHandlers that should be active and returns them.
-     * Else, calls createQueryHandlersFromCommandLine to do the same, optionally calls saveQueryHandlersToFile()
-     * to save them for future initializations, then returns them.
-     * @return All QueryHandlers that will be active.
+     * call createConfigTemplateFromFile() to generate and return a ConfigurationTemplate.
+     * Else, call createConfigTemplateFromCommandLine() to create a ConfigurationTemplate,
+     * optionally call saveQueryHandlersToFile() to save it for future initializations, then return it.
+     * @return A ConfigurationTemplate with all the information needed to initialize the bot.
      */
     public ConfigurationTemplate getConfigurationTemplate() {
         System.out.println("Do you have a configuration file?  y/n");
@@ -61,7 +60,7 @@ public class ConfigurationGenerator {
      * @return A ConfigurationTemplate with all the information needed to initialize the bot.
      */
     private ConfigurationTemplate createConfigTemplateFromCommandLine() {
-        ArrayList<QueryHandler> handlers = new ArrayList<>();
+        ArrayList<MessageHandler> handlers = new ArrayList<>();
         System.out.println("What is your Discord token?");
         String token = scanner.nextLine();
         System.out.println("Would you like to enable Wolfram Alpha queries?");

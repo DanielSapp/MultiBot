@@ -1,9 +1,8 @@
 package Initialization;
 
-import MessageHandling.MessageHandler;
+import MessageDistribution.MessageDistributor;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-
 import javax.security.auth.login.LoginException;
 
 public class Main {
@@ -22,7 +21,7 @@ public class Main {
             System.exit(1);
         }
 
-        //Register a new instance of this class as an EventListener and pass in all QueryHandlers that will be active.
-        jda.addEventListener(new MessageHandler(template.getQueryHandlers()));
+        //Register a new instance of this class as an EventListener and pass in all MessageHandlers.QueryHandlers that will be active.
+        jda.addEventListener(new MessageDistributor(template.getMessageHandlers()));
     }
 }

@@ -1,6 +1,6 @@
-package MessageHandling;
+package MessageDistribution;
 
-import QueryHandlers.QueryHandler;
+import MessageHandlers.MessageHandler;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -9,30 +9,26 @@ import java.util.ArrayList;
 
 //This class serves as the distributor for queries.  Its main function is to take every message that could potentially
 //be a bot command and distribute it to the appropriate QueryHandler(s) if it is one.
-public class MessageHandler extends ListenerAdapter {
-    private ArrayList<QueryHandler> handlers;
+public class MessageDistributor extends ListenerAdapter {
+    private ArrayList<MessageHandler> handlers;
 
     /**
-     * @param handlers All QueryHandlers that should receive commands.
+     * @param handlers All MessageHandlers.QueryHandlers that should receive commands.
      */
-    public MessageHandler(ArrayList<QueryHandler> handlers) {
+    public MessageDistributor(ArrayList<MessageHandler> handlers) {
         this.handlers = handlers;
     }
 
     /**
      * Receive a GuildMessageReceivedEvent every time a message is sent in a guild this bot is in.
-     * If it is a command, call canHandle() on every QueryHandler that is running and call handleQuery()
-     * on every one that returns true, indicating that the command is intended for that QueryHandler.
+     * Call handleMessage() on every EventHandler that is running.  Each one polymorphically handles the message
+     * (or does nothing if applicable).
      */
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
         Message eventMessage = event.getMessage();
-        if (eventMessage.getContentStripped().startsWith("!") && !event.isWebhookMessage()) {
-            for (QueryHandler qh : handlers) {
-                if (qh.canHandle(eventMessage)) {
-                    qh.handleQuery(eventMessage);
-                }
-            }
+        for (MessageHandler h : handlers) {
+            h.handleMessage(eventMessage);
         }
     }
 }

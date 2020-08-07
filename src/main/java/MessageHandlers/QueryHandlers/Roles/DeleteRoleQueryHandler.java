@@ -1,6 +1,6 @@
-package QueryHandlers.Roles;
+package MessageHandlers.QueryHandlers.Roles;
 
-import QueryHandlers.NoGatewayIntentQueryHandler;
+import MessageHandlers.QueryHandlers.QueryHandler;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 import java.util.List;
 
-public class DeleteRoleQueryHandler extends NoGatewayIntentQueryHandler {
+public class DeleteRoleQueryHandler extends QueryHandler {
 
     /**
      * Return whether @param message is a query to delete a Role.
@@ -24,11 +24,12 @@ public class DeleteRoleQueryHandler extends NoGatewayIntentQueryHandler {
     /**
      * Receive a query delete a Role.  Delete the Role if the query sender has the modify roles permission
      * and a role by the queried one is found, else print error info to console and in the Discord
-     * channel the message originated from.
+     * channel the message originated from.  Called from superclass method handleMessage()
+     * after it determines that @param message is a valid query.
      * @param message The query to delete a Role.
      */
     @Override
-    public void handleQuery(Message message) {
+    public void executeQuery(Message message) {
         String messageText = message.getContentStripped();
         String roleName = messageText.substring(messageText.indexOf(" ")+1);
         Member sender = message.getMember();

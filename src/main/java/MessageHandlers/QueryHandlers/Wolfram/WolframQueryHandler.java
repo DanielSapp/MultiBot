@@ -1,6 +1,6 @@
-package QueryHandlers.Wolfram;
+package MessageHandlers.QueryHandlers.Wolfram;
 
-import QueryHandlers.NoGatewayIntentQueryHandler;
+import MessageHandlers.QueryHandlers.QueryHandler;
 import net.dv8tion.jda.api.entities.Message;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class WolframQueryHandler extends NoGatewayIntentQueryHandler {
+public class WolframQueryHandler extends QueryHandler {
     private final String appID;
 
     /**
@@ -22,7 +22,7 @@ public class WolframQueryHandler extends NoGatewayIntentQueryHandler {
     /**
      * Return true IFF @param message begins with !wolfram, indicating it is a Wolfram query.
      * @param message The message in question.
-     * @return Whether it is a QueryHandlers.Wolfram query.
+     * @return Whether it is a Wolfram query.
      */
     @Override
     public boolean canHandle(Message message) {
@@ -30,19 +30,20 @@ public class WolframQueryHandler extends NoGatewayIntentQueryHandler {
     }
 
     /**
-     * Take a message representing a Message that included a query for Wolfram Alpha, parse the query,
-     * call getQueryAnswer() to get Wolfram's response, and send the response in the channel the query was initiated in.
+     * Take a Message that is a query for Wolfram Alpha, parse it, call getQueryAnswer() to get Wolfram's response,
+     * and send the response in the channel the query was initiated in.  Called from superclass method handleMessage()
+     * after it determines that @param message is a valid query.
      * @param message The user message that contained this query.
      */
     @Override
-    public void handleQuery (Message message)  {
+    public void executeQuery (Message message)  {
         String messageText = message.getContentStripped();
         String query = messageText.substring(messageText.indexOf(" ")+1).trim();
         String responseText;
         try {
             responseText = getQueryAnswer(query);
         } catch (IOException e) {
-            System.out.println("An error occurred while executing a QueryHandlers.Wolfram Alpha query");
+            System.out.println("An error occurred while executing a MessageHandlers.QueryHandlers.Wolfram Alpha query");
             e.printStackTrace();
             message.getChannel().sendMessage("An error occurred while executing that query.").queue();
             return;

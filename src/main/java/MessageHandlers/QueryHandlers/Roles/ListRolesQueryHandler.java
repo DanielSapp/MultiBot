@@ -1,10 +1,10 @@
-package QueryHandlers.Roles;
+package MessageHandlers.QueryHandlers.Roles;
 
-import QueryHandlers.NoGatewayIntentQueryHandler;
+import MessageHandlers.QueryHandlers.QueryHandler;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
 
-public class ListRolesQueryHandler extends NoGatewayIntentQueryHandler {
+public class ListRolesQueryHandler extends QueryHandler {
 
     /**
      * Return whether @param message is a query to list Roles.
@@ -19,10 +19,11 @@ public class ListRolesQueryHandler extends NoGatewayIntentQueryHandler {
 
     /**
      * Send a message in the channel of the originating message with all of the Roles in the originating guild.
-     * @param message The message that initiated this query.
+     * @param message The message that initiated this query.  Called from superclass method handleMessage()
+     * after it determines that @param message is a valid query.
      */
     @Override
-    public void handleQuery(Message message) {
+    public void executeQuery(Message message) {
         StringBuilder sb = new StringBuilder();
         for (Role r : message.getGuild().getRoles()) {
             if (r.getName().equals("@everyone") || r.getName().equals("MultiBot")) {
