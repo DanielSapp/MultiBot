@@ -33,8 +33,8 @@ public class RemoveRoleQueryHandler extends QueryHandler {
         //Get all roles that match the Member's query
         List<Role> matchingRoles = message.getGuild().getRolesByName(roleName, true);
 
-        //If one role matches the query, see if the Member has it.  Remove it and print success messages if they do,
-        //otherwise print errors.
+        //If one role matches the query, see if the Member has it.  Remove it and print success messages if they do.
+        //Print appropriate errors for all other outcomes.
         if (matchingRoles.size() == 1) {
             if (sender.getRoles().contains(matchingRoles.get(0))) {
                 message.getGuild().removeRoleFromMember(sender, matchingRoles.get(0)).queue();
@@ -43,7 +43,6 @@ public class RemoveRoleQueryHandler extends QueryHandler {
             } else {
                 RoleErrorPrinter.sendUserDoesntHaveRoleError(sender, channel, matchingRoles.get(0).getName());
             }
-        //Else if no matching roles were found or more than one matching Role was found, print appropriate error messages
         } else if (matchingRoles.size() == 0) {
             RoleErrorPrinter.sendNoRolesFoundError(sender, channel, roleName, "remove");
         } else {

@@ -15,7 +15,7 @@ public class ConfigurationGenerator {
      * The entry point of ConfigurationGenerator.  Ask whether the user has a configuration file.  If yes,
      * call createConfigTemplateFromFile() to generate and return a ConfigurationTemplate.
      * Else, call createConfigTemplateFromCommandLine() to create a ConfigurationTemplate,
-     * optionally call saveQueryHandlersToFile() to save it for future initializations, then return it.
+     * optionally call saveConfigTemplateToFile() to save it for future initializations, then return it.
      * @return A ConfigurationTemplate with all the information needed to initialize the bot.
      */
     public ConfigurationTemplate getConfigurationTemplate() {

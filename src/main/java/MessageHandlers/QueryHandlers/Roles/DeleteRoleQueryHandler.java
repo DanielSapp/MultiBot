@@ -30,10 +30,14 @@ public class DeleteRoleQueryHandler extends QueryHandler {
      */
     @Override
     public void executeQuery(Message message) {
+        //Extracting information from message
         String messageText = message.getContentStripped();
         String roleName = messageText.substring(messageText.indexOf(" ")+1);
         Member sender = message.getMember();
         MessageChannel channel = message.getChannel();
+
+        //If the sender has permission to manage roles, see if exactly one role by the queried name exists.
+        //Delete it if so.  Print appropriate error messages for all other outcomes.
         if (sender.getPermissions().contains(Permission.MANAGE_ROLES)) {
             List<Role> matchingRoles = message.getGuild().getRolesByName(roleName, true);
             if (matchingRoles.size() == 1) {

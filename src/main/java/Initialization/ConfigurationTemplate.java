@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 //A class representing the data needed to initialize a Discord bot.  This is saved to file after the user
 //creates one the first time the bot is run.  necessaryGatewayIntents is derived from messageHandlers in the constructor
-//to abstract their determination away from the rest of the program
+//to abstract their determination away from the rest of the program.
 public class ConfigurationTemplate implements Serializable {
     private ArrayList<GatewayIntent> necessaryGatewayIntents;
     private ArrayList<MessageHandler> messageHandlers;
@@ -19,6 +19,9 @@ public class ConfigurationTemplate implements Serializable {
         initializeNecessaryGatewayIntents();
     }
 
+    /**
+     * Set necessaryGatewayIntents to the union of all GatewayIntents that messageHandlers require to function.
+     */
     private void initializeNecessaryGatewayIntents() {
         necessaryGatewayIntents = new ArrayList<>();
         necessaryGatewayIntents.add(GatewayIntent.GUILD_MESSAGES);

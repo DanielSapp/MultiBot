@@ -28,10 +28,14 @@ public class CreateRoleQueryHandler extends QueryHandler {
      */
     @Override
     public void executeQuery(Message message) {
+        //Extracting information from message
         String messageText = message.getContentStripped();
         String roleName = messageText.substring(messageText.indexOf(" ")+1);
         Member sender = message.getMember();
         MessageChannel channel = message.getChannel();
+
+        //If the sender has permission to manage roles, see if a role by the queried name already exists.
+        //Create a new one if there isn't.  Print appropriate errors for all other outcomes.
         if (sender.getPermissions().contains(Permission.MANAGE_ROLES)) {
             if (sender.getGuild().getRolesByName(roleName, true).size() == 0) {
                 sender.getGuild().createRole().setName(roleName).queue();
