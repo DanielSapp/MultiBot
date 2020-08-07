@@ -1,4 +1,4 @@
-# DiscordBot
+# MultiBot
 MultiBot is a multi-functional Discord bot built using the JDA API.  Its current functionality includes managing user roles, querying the Wolfram Alpha simple response API, and retrieving stock market quotes from the IEX cloud trading platform.  It was written with extensibility in mind to make adding new functionality simple and limitless.
 
 # Getting started
